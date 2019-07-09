@@ -52,4 +52,4 @@ for i in range(len(predictions)):
 
 print (score/len(predictions))
 
-#check against train set
+#check against train set again
