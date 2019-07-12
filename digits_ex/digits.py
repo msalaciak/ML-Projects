@@ -12,7 +12,7 @@ x_test = tf.keras.utils.normalize(x_test, axis=1)
 
 #input layers
 model = tf.keras.models.Sequential()
-model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 
 #hidden layer
 model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
@@ -31,10 +31,34 @@ model.compile(optimizer= 'adam', loss= 'sparse_categorical_crossentropy', metric
 model.fit(x_train, y_train, epochs =3)
 
 
+#calculate validation loss and acuracy
 
+val_loss, val_acc = model.evaluate(x_test, y_test)
+
+
+print(val_loss, val_acc)
+
+#model save
+model.save('epic_num_reader.model')
+
+#load model later
+new_model = tf.keras.models.load_model('epic_num_reader.model')
+
+#predictions always takes a list
+predictions = new_model.predict([x_test])
+
+#prediction print - (looks messy - prints prob distrubution
+print(predictions)
+
+
+import numpy as np
+#print prediction of first index of x_test and display it
+print(np.argmax(predictions[9]))
+plt.imshow(x_test[9])
+plt.show()
 
 
 #show array position 1
-plt.imshow(x_train[0], cmap= plt.cm.binary)
-plt.show()
+# plt.imshow(x_train[0], cmap= plt.cm.binary)
+# plt.show()
 
